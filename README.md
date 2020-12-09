@@ -1,4 +1,4 @@
-# ar_ddns
+# ar-ddns
 ArvanCloud Dynamic DNS Tool
 
 # Brief
