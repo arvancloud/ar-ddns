@@ -3,6 +3,7 @@
 # Usage:
 # ar-ddns.sh -k Arvan API-KEY \
 #            -d example.com   \
+#            -n www   \
 #            -r 18
 
 
