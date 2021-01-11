@@ -59,7 +59,7 @@ fi
 RESPONSE=$(curl -s -o /dev/null -w -X PUT "https://napi.arvancloud.com/cdn/4.0/domains/$DOMAIN/dns-records/$RECORD_ID" \
   -H "Authorization: $ARKEY" \
   -H "Content-Type: application/json" \
-  --data "{\"type\":\"a\",\"name\":\"$RECORD_NAME\",\"value\":\"[{\"ip\": \"$RECORD_NAME\"}]'\"}")
+  --data "{\"type\":\"a\",\"name\":\"$RECORD_NAME\",\"value\":\"[{\"ip\": \"$IP\"}]'\"}")
 
 
 if [ $RESPONSE -eq 200 ]; then
