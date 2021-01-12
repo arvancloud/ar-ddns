@@ -35,7 +35,7 @@ fi
 if  [ ${current_IP} == "${response}" ] ; then
 	echo "No action Needed"
 else
-	PutNewIP=$(curl -s -L -X PUT "https://napi.arvancloud.com/cdn/4.0/domains/vimoon.ir/dns-records/e65a8730-49d3-453e-9e94-8af37e634887" \
+	PutNewIP=$(curl -s -L -X PUT "https://napi.arvancloud.com/cdn/4.0/domains/$root_domain/dns-records/$domain_id" \
    -H "Content-Type: application/json" \
    -H "Accept: application/json" \
    -H "Authorization: ${TOKEN}" \
