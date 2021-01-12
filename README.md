@@ -16,11 +16,11 @@ User Subdomain
 ## Requirements
 The jq package is required
 
-# Centos
+### Centos
 ```
  yum install jq -y
 ```
-# Debian
+### Debian
 ```
 apt install jq -y
 ```
