@@ -2,19 +2,18 @@
 ArvanCloud Dynamic DNS Tool
 
 # Brief
-Some Times the origin servers don't have the static IP and their IP may change after a while.
-With this tool the user can update DNS record in ArvanCloud DNS service automatically.
+Some Times the origin servers don't have the static IP and their IP may change after a while. With this tool the user can update DNS record in ArvanCloud DNS service automatically.
 
 ## Input
-User API Token available in ArvanCloud panel
-User Subdomain
+User API Token available in ArvanCloud panel which can be found from https://npanel.arvancloud.com/profile/api-keys.
+User Subdomain.
 
 ## Capabalities
 * Set DNS Record 
 * Update DNS Record
 
 ## Requirements
-The jq package is required
+The jq package is required.
 
 ### Centos
 ```
@@ -24,4 +23,10 @@ The jq package is required
 ```
 apt install jq -y
 ```
+## Examples
+For example your domain is www.example.com. After adding the Input variables, the script will look for your current DNS records and find the type "a" for "www" record. Then the script checks for your server's IP address. If there is a match for your current address and server's address no action will be taken. otherwise Your "www" record will be changed to your server's IP address. Set The TOKEN which is your API key and domain_name="www.example.com" in the bash script. and run the following command:
+```
+./ddns.sh
+```
+
 
