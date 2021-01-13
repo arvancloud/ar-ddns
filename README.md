@@ -31,6 +31,6 @@ For example your domain is www.example.com. After adding the Input variables, th
 ```
 If you want to change "@" record just add root domain as follow:
 ```
-./ddns.sh "Apikey 54654654654" "example.com"
+./ddns.sh -a "Apikey 54654654654" -d "example.com"
 ```
 
