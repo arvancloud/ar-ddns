@@ -1,12 +1,12 @@
 #!/bin/bash
 
 ###input Variables
-TOKEN="Apikey "
-domain_name="example.com"
+TOKEN="$1"
+domain_name="$2"
 
 root_domain=$(echo $domain_name | awk -F\. '{print $(NF-1) FS $NF}' )
 
-
+echo $TOKEN
 ###check if its a root domain ro subdomain
 if [ "$(echo $domain_name | awk -F"." '{print $3}')" == "" ] ; then
 	subdomain="@"
