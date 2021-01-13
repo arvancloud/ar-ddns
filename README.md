@@ -4,12 +4,12 @@ ArvanCloud Dynamic DNS Tool
 ### Setup
 replace variables and set as crontab using `crontab -e`
 ```
-* * * * * curl --interface $INTERFACE 'https://napi.arvancloud.com/cdn/4.0/domains/yazdatba.com/dns-records/$RECORD_ID/' \
+* * * * * curl --interface $INTERFACE "https://napi.arvancloud.com/cdn/4.0/domains/yazdatba.com/dns-records/$RECORD_ID/" \
   -X 'PUT' \
   -H 'accept: application/json, text/plain, */*' \
   -H "authorization: $API_KEY" \
   -H 'content-type: application/json;charset=UTF-8' \
-  --data-binary "{'id':'$RECORD_ID','type':'$RECORD_TYPE','name':'$NAME','cloud':$CLOUD,'value':[{'ip':'$(curl ifconfig.me)','port':null,'weight':100,'country':null}],'ttl':120,'ip_filter_mode':{'count':'single','order':'none','geo_filter':'location'},'upstream_https':'default'}' \
+  --data-binary '{"id":"$RECORD_ID","type":"$RECORD_TYPE","name":"$NAME","cloud":"$CLOUD","value":[{"ip":"'"$(curl ifconfig.me)"'","port":null,"weight":100,"country":null}],"ttl":120,"ip_filter_mode":{"count":"single","order":"none","geo_filter":"location"},"upstream_https":"default"}' \
   --compressed
 ```
 
