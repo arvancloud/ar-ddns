@@ -24,9 +24,12 @@ The jq package is required.
 apt install jq -y
 ```
 ## Examples
-For example your domain is www.example.com. After adding the Input variables, the script will look for your current DNS records and find the type "a" for "www" record. Then the script checks for your server's IP address. If there is a match for your current address and server's address no action will be taken. otherwise Your "www" record will be changed to your server's IP address. Set The TOKEN which is your API key and domain_name="www.example.com" in the bash script. and run the following command:
+For example your domain is www.example.com. After adding the Input variables, the script will look for your current DNS records and find the type "a" for "www" record. Then the script checks for your server's IP address. If there is a match for your current address and server's address no action will be taken. otherwise Your "www" record will be changed to your server's IP address. Set first argument as API Key abd second argument as your subdomain. and run the following command:
 ```
-./ddns.sh
+./ddns.sh "Apikey 54654654654" "www.example.com"
 ```
-
+If you want to change "@" record just add root domain as follow:
+```
+./ddns.sh "Apikey 54654654654" "example.com"
+```
 
