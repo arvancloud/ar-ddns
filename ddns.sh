@@ -1,8 +1,20 @@
 #!/bin/bash
 
-###input Variables
-TOKEN="$1"
-domain_name="$2"
+while getopts d:a:i: option
+do
+case "${option}"
+in
+a) TOKEN=${OPTARG};;
+d) domain_name=${OPTARG};;
+i) IP=${OPTARG};;
+esac
+done
+
+if [ "$TOKEN" == "" ] || [ "$domain_name" == "" ]; then
+	echo "API key and domain name are required"
+	exit 1
+fi
+
 
 root_domain=$(echo $domain_name | awk -F\. '{print $(NF-1) FS $NF}' )
 
