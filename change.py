@@ -4,7 +4,7 @@ from requests.structures import CaseInsensitiveDict
 from time import sleep
 from ifaddr import get_adapters
 
-API_KEY = "Apikey 4baa5745-ad26-42e1-b29c-74975f7f9bb5"
+API_KEY = "Apikey XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX"
 API_URL_BASE = "https://napi.arvancloud.com/cdn/4.0"
 
 headers = CaseInsensitiveDict()
@@ -15,9 +15,10 @@ SLEEP_TIME = 5
 def send_request(
     uri: str,
     method: str = "GET",
+    data: dict = {}
 ):
-    if method.casefold() == "PUT":
-        response = requests.get(uri, headers=headers)
+    if method.casefold() == "put":
+        response = requests.put(uri, headers=headers, data=data)
     else:
         response = requests.get(uri, headers=headers)
         
@@ -73,19 +74,35 @@ def check_ips_changed(ips: dict, dns_type: str = 'ipv4'):
 
 def find_changed_records(changes: dict, record: dict, dns_type: str = 'ipv4'):
     for dns in find_dns(record['domain']):
+        updated_dns_record = dns.copy()
         if dns_type == 'ipv4' and dns['type'] == 'a':
             for ip in dns['value']:
                 if ip["ip"] in changes.keys():
-                    update_dns(dns, ip["ip"], changes[ip['ip']])
+                    updated_ip = ip.copy()
+                    updated_ip['ip'] = changes[ip['ip']][0]
+                    updated_dns_record['value'].remove(ip)
+                    updated_dns_record['value'].append(updated_ip)
+                    update_dns(updated_dns_record, record['domain'])
 
-def update_dns(dns, ip, change):
-    print(dns)
-    print(ip)
-    print(change)
+
+def update_dns(dns_record: dict, domain: str):
+    API_URL = f"{API_URL_BASE}/domains/{domain}/dns-records/{dns_record['id']}"
+    payload = {
+        "type": dns_record['type'],
+        "name": dns_record['name'],
+        "value": dns_record['value'],
+        "ttl": dns_record['ttl'],
+        "cloud": dns_record['cloud'],
+        "upstream_https": dns_record['upstream_https'],
+        "ip_filter_mode": dns_record['ip_filter_mode']
+    }
+    return send_request(API_URL, 'PUT', data=payload)
 
 if __name__ == "__main__":
+    # a     => IPv4
+    # aaaa  => IPv6
     update_dns_types = 'ipv4'
-    update_domain_name = "test33.com"
+    update_domain_name = "DOMAIN-NAME"
     current_ips = find_all_ips(update_dns_types)
     while True:
         current_ips, changes = check_ips_changed(current_ips, update_dns_types)
