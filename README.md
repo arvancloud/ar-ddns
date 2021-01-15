@@ -1,4 +1,4 @@
-# ar-ddns
+# arvancloud-ddns
 ArvanCloud Dynamic DNS Tool
 
 # Brief
@@ -12,6 +12,8 @@ Some Times the origin servers don't have the static IP and their IP may change a
 ## Capabalities
 * Set DNS Record 
 * Update DNS Record
+
+# Bash Script
 
 ## Requirements
 The jq package is required.
@@ -33,4 +35,12 @@ If you want to change "@" record just add root domain as follow:
 ```
 ./ddns.sh -a "Apikey 54654654654" -d "example.com"
 ```
+
+# Python Script
+
+## Installation
+    pip install arvancloud-ddns
+
+## Examples
+    arvancloud-ddns --api-key YOUR-ARVANCLOUD-API-KEY --domain YOUR-DOMAIN
 
