@@ -33,7 +33,7 @@ data=$(curl -s -L -X GET \
    -H "Content-Type: application/json" \
    -H "Accept: application/json" \
    -H "Authorization: ${TOKEN}")
-current_IP=$(echo $data | jq '.data[] | select(.type=="a") |  select(.name=="'$subdomain'") ' | jq '.value[].ip' 2> /dev/null)
+current_IP=$(echo $data | jq '.data[] | select(.type=="a") |  select(.name=="'$subdomain'") ' | jq '.value[].ip' 2> /dev/null  | sed 's/^"\(.*\)".*/\1/') 
 domain_id=$(echo $data |  jq '.data[] | select(.type=="a")   |  select(.name=="'$subdomain'") ' | jq '.id' 2> /dev/null | sed 's/^"\(.*\)".*/\1/' )
 
 ### get system's current IP
@@ -49,13 +49,21 @@ if [ "$IP" == "" ]; then
 fi
 
 ### set System's current IP into Arvancloud DNS
-if  [ ${current_IP} == "${response}" ] ; then
+if  [ "${current_IP}" == "${response}" ] ; then
 	echo "No action Needed"
 else
-	PutNewIP=$(curl -s -L -X PUT "https://napi.arvancloud.com/cdn/4.0/domains/$root_domain/dns-records/$domain_id" \
-   -H "Content-Type: application/json" \
-   -H "Accept: application/json" \
-   -H "Authorization: ${TOKEN}" \
-   -d "{ \"name\": \"$subdomain\", \"type\": \"a\", \"value\": [{\"ip\": \"$IP\"}]}")
+    if [ "${domain_id}" != "" ]; then
+	    PutNewIP=$(curl -s -L -X PUT "https://napi.arvancloud.com/cdn/4.0/domains/$root_domain/dns-records/$domain_id" \
+       -H "Content-Type: application/json" \
+       -H "Accept: application/json" \
+       -H "Authorization: ${TOKEN}" \
+       -d "{ \"name\": \"$subdomain\", \"type\": \"a\", \"value\": [{\"ip\": \"$IP\"}]}")
+   else
+       PutNewIP=$(curl -s -L -X POST "https://napi.arvancloud.com/cdn/4.0/domains/$root_domain/dns-records/" \
+       -H "Content-Type: application/json" \
+       -H "Accept: application/json" \
+       -H "Authorization: ${TOKEN}" \
+       -d "{ \"name\": \"$subdomain\", \"type\": \"a\", \"value\": [{\"ip\": \"$IP\"}]}")
+   fi
 echo $PutNewIP
 fi
